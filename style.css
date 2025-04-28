@@ -1,190 +1,107 @@
-/* Global Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
+   ÑùÊ½±í£¨È¥¾í±ß & hover Òç³öÐÞ¸´£©
+©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤ */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  overflow:hidden;
+  width:100vw;height:100vh;
+  background:#f0f0f0;
+  position:relative;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
-    background-color: #f0f0f0;
+/* ©¤©¤©¤ Intro ¶¯»­ÔªËØ ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤ */
+#moving-image{
+  position:absolute;
+  top:0;left:50%;
+  transform:translate(-50%,0);
+  width:auto;max-width:60%;
+  height:auto;max-height:30vh;
+  object-fit:contain;
+  z-index:2002;
+  opacity:1;
+  animation:moveToCenter 3s ease-out .3s forwards;
+}
+#center-image{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:auto;max-width:40%;
+  height:auto;max-height:25vh;
+  object-fit:contain;
+  z-index:2001;
+  opacity:1;
+}
+#reveal-effect-overlay{
+  position:absolute;inset:0;
+  background:#f0f0f0;
+  z-index:1999;
+  pointer-events:none;
+  opacity:1;
+  animation:overlayFade .3s ease-out forwards;
+  animation-play-state:paused;
+}
+#main-content{position:relative;width:100%;height:100%;overflow:hidden;z-index:1;}
+
+@keyframes moveToCenter{from{top:0;transform:translate(-50%,0);}to{top:50%;transform:translate(-50%,-50%);}}
+@keyframes overlayFade{from{opacity:1;}to{opacity:0;}}
+@keyframes fadeOutQuick{from{opacity:1;}to{opacity:0;}}
+.fade-out{animation:fadeOutQuick .2s linear forwards;}
+
+/* ©¤©¤©¤ ÌùÖ½ÈÝÆ÷ÓëÍ¼Æ¬ ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤ */
+.sticker-background{position:absolute;inset:0;z-index:1;}
+
+/* ÌùÖ½ÈÝÆ÷£ºÎÞ¾í±ß£¬overflow Òþ²Ø£¬hover ÇáÎ¢·Å´ó */
+.sticker-wrapper{
+  position:absolute;
+  border-radius:4px;
+  box-shadow:0 4px 8px rgba(0,0,0,.25);
+  overflow:hidden;               /* ¹Ø¼ü£º²Ã¼ô img£¬·ÀÖ¹·Å´óÊ±Òç³ö */
+  transition:transform .3s ease;
+  transform-origin:center;
+  z-index:2;
+  max-width:300px;
+  max-height:300px;
+}
+.sticker-wrapper:hover{
+  transform:scale(1.05) rotate(2deg);
+  z-index:10;
 }
 
-/* Tear Animation Overlay */
-.tear-overlay {
-    position: fixed;
-    top: 0;
-    width: 50%;
-    height: 100vh;
-    background-color: #fff;
-    z-index: 1000;
+/* Í¼Æ¬ÆÌÂúÈÝÆ÷ */
+.album-sticker{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:inherit;
+  display:block;
 }
 
-.tear-left {
-    left: 0;
-    transform-origin: right center;
-    animation: tearLeft 1.5s ease-in-out forwards;
+/* Í·Ïñ */
+.avatar-container{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:100;display:flex;justify-content:center;align-items:center;
 }
-
-.tear-right {
-    right: 0;
-    transform-origin: left center;
-    animation: tearRight 1.5s ease-in-out forwards;
+.avatar{
+  width:150px;height:150px;border-radius:50%;
+  object-fit:cover;border:5px solid #fff;
+  box-shadow:0 0 20px rgba(0,0,0,.3);
+  transition:transform .3s ease,box-shadow .3s ease;
 }
+.avatar:hover{transform:scale(1.1);box-shadow:0 0 30px rgba(0,0,0,.4);}
 
-@keyframes tearLeft {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+/* ©¤©¤©¤ ÏìÓ¦Ê½ ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤ */
+@media(max-width:768px){
+  #moving-image{max-height:25vh;max-width:70%;}
+  #center-image{max-height:20vh;max-width:50%;}
+  .avatar{width:120px;height:120px;}
+  .sticker-wrapper{max-width:140px!important;max-height:140px!important;}
 }
-
-@keyframes tearRight {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(100%);
-    }
-}
-
-/* Content Wrapper */
-.content-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-/* Sticker Background */
-.sticker-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-/* Album Cover Sticker Styles */
-.album-sticker {
-    position: absolute;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    transition: transform 0.3s ease;
-    z-index: 2;
-}
-
-.album-sticker:hover {
-    /* transform: scale(1.05); */ /* Removed hover effect */
-    /* z-index: 10; */ /* Removed hover effect */
-}
-
-/* Curled Corner Effect */
-.curled-corner::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 0 20px 20px;
-    border-color: transparent transparent #fff transparent;
-    box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.3);
-    border-radius: 0 0 0 5px;
-    transform: rotate(0deg);
-}
-
-/* Avatar Container */
-.avatar-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 5px solid white;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.avatar:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-}
-
-/* Scroll Indicator */
-.scroll-indicator {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 14px;
-    text-align: center;
-    opacity: 0.8;
-    z-index: 100;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    animation: fadeInOut 2s infinite;
-}
-
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.8; }
-}
-
-/* Transition Overlay for Smooth Navigation */
-.transition-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    z-index: 2000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .avatar {
-        width: 120px;
-        height: 120px;
-    }
-    
-    .album-sticker {
-        /* Smaller stickers on mobile */
-        max-width: 100px !important;
-        max-height: 100px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .avatar {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .album-sticker {
-        /* Even smaller stickers on very small screens */
-        max-width: 80px !important;
-        max-height: 80px !important;
-    }
+@media(max-width:480px){
+  #moving-image{max-height:20vh;max-width:80%;}
+  #center-image{max-height:18vh;max-width:60%;}
+  .avatar{width:100px;height:100px;}
+  .sticker-wrapper{max-width:100px!important;max-height:100px!important;}
 }
