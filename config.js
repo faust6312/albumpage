@@ -1,7 +1,7 @@
 
 const config = {
   avatarUrl: "https://roim-picx-9nr.pages.dev/rest/yJmVPQK.png",
-  blogUrl: "https://ewww.fun",
+  blogUrl: "https://qqwx.de",
   albumCoverUrls: [
 "https://photo.459122.xyz/iimhomo/2025/04/29/eb487f41c662d1b6a79ae3c592f3b0af.jpg",
 "https://photo.459122.xyz/iimhomo/2025/04/29/4ea1863855aeddc3ab4a9087c6cc1198.jpg",
