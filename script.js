@@ -1,29 +1,64 @@
+// --- NEW: Function to preload images ---
+function preloadImages(urls) {
+  if (!Array.isArray(urls)) {
+    console.error("preloadImages expects an array of URLs.");
+    return;
+  }
+  urls.forEach(url => {
+    if (url) { // Check if URL is not empty or null
+      const img = new Image();
+      img.src = url;
+    }
+  });
+  console.log(`Preloading ${urls.length} image(s).`);
+}
+// --------------------------------------
+
 document.addEventListener('DOMContentLoaded', () => {
   const avatar = document.getElementById('avatar');
   const stickerBg = document.getElementById('sticker-background');
-  const movingImg = document.getElementById('moving-image');
-  const centerImg = document.getElementById('center-image');
+  const movingImg = document.getElementById('moving-image'); //
+  const centerImg = document.getElementById('center-image'); //
   const overlay = document.getElementById('reveal-effect-overlay');
 
   /* Config Check */
-  if (typeof config === 'undefined') {
-    console.error('config.js not loaded');
+  if (typeof config === 'undefined' || !config || typeof config !== 'object') {
+    console.error('config.js not loaded or is invalid');
     cleanup(movingImg, centerImg, overlay);
     return;
   }
 
+  // --- Preload key images early ---
+  const imageUrlsToPreload = [];
+  if (config.avatarUrl) { //
+      imageUrlsToPreload.push(config.avatarUrl); //
+  }
+  if (movingImg && movingImg.src) { //
+      imageUrlsToPreload.push(movingImg.src); //
+  }
+   if (centerImg && centerImg.src) { //
+      imageUrlsToPreload.push(centerImg.src); //
+  }
+  if (Array.isArray(config.albumCoverUrls)) { //
+       // Preload all album covers
+       imageUrlsToPreload.push(...config.albumCoverUrls); //
+  }
+  preloadImages(imageUrlsToPreload); // Call the preload function
+  // ---------------------------------
+
   /* Avatar Setup */
-  if (avatar && config.avatarUrl) {
-    avatar.src = config.avatarUrl;
-    if (config.blogUrl) {
+  if (avatar && config.avatarUrl) { //
+    avatar.src = config.avatarUrl; //
+    if (config.blogUrl) { //
       avatar.style.cursor = 'pointer';
-      avatar.addEventListener('click', () => window.location.href = config.blogUrl);
+      avatar.addEventListener('click', () => window.location.href = config.blogUrl); //
     }
   }
 
   /* Generate Stickers (now includes vinyl logic) */
-  if (stickerBg && Array.isArray(config.albumCoverUrls) && config.albumCoverUrls.length) {
-    generateStickers(stickerBg, config.albumCoverUrls);
+  // Generate stickers after starting preload, they will use cached images
+  if (stickerBg && Array.isArray(config.albumCoverUrls) && config.albumCoverUrls.length) { //
+    generateStickers(stickerBg, config.albumCoverUrls); //
   }
 
   /* Intro Animation Logic */
@@ -45,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --- Sticker Generation (Includes Vinyl Designation, Sizing, Listeners) --- */
-function generateStickers(container, urls) {
+function generateStickers(container, urls) { // urls from config.albumCoverUrls
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   const mobile = vw < 768;
@@ -133,18 +168,16 @@ function generateStickers(container, urls) {
 
       /* Image Tag */
       const img = document.createElement('img');
-      img.src = url;
-      img.loading = 'lazy';
+      img.src = url; // Use the URL - browser should use cached version if preloaded
+      // img.loading = 'lazy'; // Keep lazy loading? Maybe remove if preloading all? Let's remove it.
       img.alt = isVinyl ? 'Vinyl Record Label' : 'Album Cover';
       img.className = 'album-sticker';
       inner.appendChild(img);
 
       // --- Add Click Listener based on type ---
-      // *** THIS SECTION ADDS THE CLICK-TO-SPIN FUNCTIONALITY FOR VINYLS ***
       if (isVinyl) {
           // Vinyl click listener for spinning
           wrap.addEventListener('click', () => {
-              // This line toggles the '.spinning' class when a vinyl is clicked
               wrap.classList.toggle('spinning');
           });
       } else {
@@ -160,7 +193,6 @@ function generateStickers(container, urls) {
               }
           });
       }
-      // ***********************************************************************
 
       placed.push({ cx, cy, r });
       stickersPlaced++;
